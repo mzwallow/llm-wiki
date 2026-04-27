@@ -11,3 +11,12 @@ wheels/
 
 # Local git worktrees
 .worktrees/
+
+# Obsidian
+.obsidian/
+!.obsidian/app.json
+!.obsidian/appearance.json
+!.obsidian/core-plugins.json
+!.obsidian/community-plugins.json
+!.obsidian/hotkeys.json
+!.obsidian/plugins/*/manifest.json

@@ -14,3 +14,5 @@ Checked for orphan pages and missing cross-references. Added missing `See Also` 
 
 ## [2026-04-27] ingest | Bits UI LLM Documentation
 Ingested `raw/svelte/bits-ui-llms.md`. Created summary page `bits-ui-llms.md` and concept pages for `bits-ui` and `svelte-component-patterns`. Updated `index.md`. Ran `qmd embed`.
+
+## [2026-04-28] lint | Wiki integrity check and link fixes
