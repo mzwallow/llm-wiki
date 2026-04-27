@@ -11,3 +11,6 @@ Ingested `raw/wayland/libwayland-server.md`, `raw/wayland/libwayland-client.md`,
 
 ## [2026-04-25] lint | Wiki Health Check
 Checked for orphan pages and missing cross-references. Added missing `See Also` links to `wayland-book.md`, `wayland-protocol.md`, and `wayland.md` to connect the newly ingested libwayland pages and fix orphan relationships. Ran `qmd embed`.
+
+## [2026-04-27] ingest | Bits UI LLM Documentation
+Ingested `raw/svelte/bits-ui-llms.md`. Created summary page `bits-ui-llms.md` and concept pages for `bits-ui` and `svelte-component-patterns`. Updated `index.md`. Ran `qmd embed`.
