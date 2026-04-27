@@ -7,6 +7,7 @@
 - [[libwayland-client]]: Summary of the libwayland-client API.
 - [[libwayland-protocol-spec]]: Summary of the Wayland Protocol XML Specification.
 - [[bits-ui-llms]]: Summary of the Bits UI LLM-friendly documentation.
+- [[svelte-llms]]: Summary of the full Svelte 5 and SvelteKit documentation.
 
 ## Concepts
 - [[wayland]]: Overview of the Wayland architecture.
@@ -15,4 +16,6 @@
 - [[zig-language]]: Overview of the Zig programming language.
 - [[libwayland]]: Overview of the C reference implementation of Wayland.
 - [[bits-ui]]: Overview of the Bits UI headless component library for Svelte.
+- [[svelte]]: Overview of the Svelte 5 framework and reactivity model.
+- [[sveltekit]]: Overview of the SvelteKit application framework.
 - [[svelte-component-patterns]]: Reusable Svelte component patterns from the Bits UI documentation.

@@ -15,5 +15,6 @@ This document details the C API for `libwayland-client`, the reference implement
   - Events are handled by calling a dispatcher callback stored in the `wl_proxy`.
 
 ## See Also
+- [[wayland]]
 - [[libwayland]]
 - [[wayland-protocol]]

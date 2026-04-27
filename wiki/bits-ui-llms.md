@@ -24,3 +24,5 @@ This source is the LLM-friendly documentation bundle for Bits UI, a headless com
 ## See Also
 - [[bits-ui]]
 - [[svelte-component-patterns]]
+- [[svelte]]
+- [[svelte-llms]]

@@ -15,3 +15,6 @@ The Wayland protocol is asynchronous and object-oriented. Communication happens 
 - [[xwayland]]
 - [[wayland-book]]
 - [[libwayland]]
+- [[libwayland-server]]
+- [[libwayland-client]]
+- [[libwayland-protocol-spec]]

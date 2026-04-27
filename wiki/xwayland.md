@@ -9,4 +9,6 @@ To provide a seamless "rootless" experience (where X11 windows mix with Wayland 
 
 ## See Also
 - [[wayland]]
+- [[wayland-protocol]]
 - [[wayland-book]]
+- [[libwayland]]

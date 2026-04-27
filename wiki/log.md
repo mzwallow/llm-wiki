@@ -16,3 +16,9 @@ Checked for orphan pages and missing cross-references. Added missing `See Also` 
 Ingested `raw/svelte/bits-ui-llms.md`. Created summary page `bits-ui-llms.md` and concept pages for `bits-ui` and `svelte-component-patterns`. Updated `index.md`. Ran `qmd embed`.
 
 ## [2026-04-28] lint | Wiki integrity check and link fixes
+Checked for contradictions, missing cross-references, and data gaps across all pages. Fixed: `wl_compositor` contradiction in `libwayland-protocol-spec.md`. Added cross-references to Wayland cluster (`xwayland`, `wayland`, `wayland-book`, `wayland-protocol`, `libwayland-client`, `libwayland-server`, `libwayland-protocol-spec`). Added cross-references to Svelte cluster (`bits-ui`, `bits-ui-llms`). Filled gaps in `svelte.md`: added `$host`, `$props.id()`, `$effect.root`, `$effect.pre`, `{@debug}`, `<svelte:options>`, lifecycle hooks, imperative API.
+
+## [2026-04-28] ingest | Svelte Full Documentation
+Ingested `raw/svelte/llms.md` (~36K lines). Created summary page `svelte-llms.md` and concept pages for `svelte` (framework/runes/reactivity) and `sveltekit` (routing/loading/forms/hooks/adapters). Updated `index.md` and cross-references on `svelte-component-patterns.md`.
+
+## [2026-04-28] lint | Verification pass after external lint tool usage

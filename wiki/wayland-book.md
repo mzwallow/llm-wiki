@@ -18,3 +18,7 @@ The Wayland Book provides a comprehensive guide to the Wayland architecture and 
 - [[wayland]]
 - [[wayland-protocol]]
 - [[xwayland]]
+- [[libwayland]]
+- [[libwayland-server]]
+- [[libwayland-client]]
+- [[libwayland-protocol-spec]]

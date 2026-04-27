@@ -18,3 +18,5 @@ The Wayland protocol defines how clients and the compositor communicate.
 - [[wayland]]
 - [[wayland-book]]
 - [[libwayland-protocol-spec]]
+- [[libwayland]]
+- [[xwayland]]

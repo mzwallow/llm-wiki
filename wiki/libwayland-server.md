@@ -14,5 +14,6 @@ This document details the C API for `libwayland-server`, the reference implement
 - **`wl_array`**: A dynamic array implementation used internally for handling variable-sized allocations.
 
 ## See Also
+- [[wayland]]
 - [[libwayland]]
 - [[wayland-protocol]]

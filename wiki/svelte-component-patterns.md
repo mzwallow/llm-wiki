@@ -19,5 +19,8 @@ The Bits UI documentation highlights several Svelte patterns for building compos
 - Keep wrapper requirements from floating components intact; removing them can break positioning or transition behavior.
 
 ## See Also
+- [[svelte]]
+- [[sveltekit]]
 - [[bits-ui]]
 - [[bits-ui-llms]]
+- [[svelte-llms]]
