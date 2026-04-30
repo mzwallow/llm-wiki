@@ -8,6 +8,9 @@
 - [[libwayland-protocol-spec]]: Summary of the Wayland Protocol XML Specification.
 - [[bits-ui-llms]]: Summary of the Bits UI LLM-friendly documentation.
 - [[svelte-llms]]: Summary of the full Svelte 5 and SvelteKit documentation.
+- [[openwrt-raspberry-pi]]: Summary of OpenWrt support for Raspberry Pi.
+- [[openwrt-sqm]]: Smart Queue Management for bufferbloat mitigation.
+- [[openwrt-wireless]]: Configuration and features of Wi-Fi in OpenWrt.
 
 ## Concepts
 - [[wayland]]: Overview of the Wayland architecture.
@@ -19,3 +22,5 @@
 - [[svelte]]: Overview of the Svelte 5 framework and reactivity model.
 - [[sveltekit]]: Overview of the SvelteKit application framework.
 - [[svelte-component-patterns]]: Reusable Svelte component patterns from the Bits UI documentation.
+- [[openwrt]]: Overview of the OpenWrt embedded Linux distribution.
+- [[raspberry-pi]]: Overview of the Raspberry Pi single-board computers.

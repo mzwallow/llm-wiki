@@ -22,3 +22,15 @@ Checked for contradictions, missing cross-references, and data gaps across all p
 Ingested `raw/svelte/llms.md` (~36K lines). Created summary page `svelte-llms.md` and concept pages for `svelte` (framework/runes/reactivity) and `sveltekit` (routing/loading/forms/hooks/adapters). Updated `index.md` and cross-references on `svelte-component-patterns.md`.
 
 ## [2026-04-28] lint | Verification pass after external lint tool usage
+Verified cross-references and content consistency after bulk Svelte ingestion.
+
+## [2026-04-30] ingest | OpenWrt Wireless
+- Created [[openwrt-wireless]] from `raw/openwrt/wifi.md`.
+- Updated [[openwrt]] and [[index.md]].
+
+## [2026-04-30] ingest | OpenWrt SQM
+- Created [[openwrt-sqm]] from `raw/openwrt/sqm.md`.
+- Updated [[openwrt]] and [[index.md]].
+
+## [2026-04-29] ingest | OpenWrt Raspberry Pi
+Ingested `raw/openwrt/rasppi.md`. Created summary page `openwrt-raspberry-pi.md` and updated `index.md` with `openwrt` and `raspberry-pi` concepts.
