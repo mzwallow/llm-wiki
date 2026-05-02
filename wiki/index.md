@@ -3,6 +3,8 @@
 ## Sources
 - [[wayland-book]]: Summary of the official Wayland Book.
 - [[zig-0.16.0-doc]]: Summary of the Zig 0.16.0 Documentation.
+- [[zig-0.16.0-release-notes]]: Summary of the Zig 0.16.0 Release Notes.
+- [[zig-build-system]]: Summary of the Zig Build System.
 - [[libwayland-server]]: Summary of the libwayland-server API.
 - [[libwayland-client]]: Summary of the libwayland-client API.
 - [[libwayland-protocol-spec]]: Summary of the Wayland Protocol XML Specification.
@@ -11,6 +13,7 @@
 - [[openwrt-raspberry-pi]]: Summary of OpenWrt support for Raspberry Pi.
 - [[openwrt-sqm]]: Smart Queue Management for bufferbloat mitigation.
 - [[openwrt-wireless]]: Configuration and features of Wi-Fi in OpenWrt.
+- [[openwrt-tailscale]]: Installation and configuration of Tailscale on OpenWrt.
 
 ## Concepts
 - [[wayland]]: Overview of the Wayland architecture.

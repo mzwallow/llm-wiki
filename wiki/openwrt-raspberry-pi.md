@@ -55,5 +55,11 @@ Available via GPIO:
 ## EEPROM Updates
 Recommended for RPi 4 and 5 to improve performance, fix bugs, and optimize power/thermal management. Use `bcm27xx-eeprom` package or Raspberry Pi Imager.
 
+## See Also
+- [[openwrt]]
+- [[openwrt-sqm]]
+- [[openwrt-wireless]]
+- [[openwrt-tailscale]]
+
 ## References
 - [OpenWrt Wiki: Raspberry Pi](https://openwrt.org/toh/raspberry_pi_foundation/raspberry_pi)

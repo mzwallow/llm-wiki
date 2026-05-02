@@ -16,3 +16,5 @@ Zig is a general-purpose programming language and toolchain intended to replace 
 
 ## Documentation
 - [[zig-0.16.0-doc]]: The official documentation for version 0.16.0.
+- [[zig-0.16.0-release-notes]]: Highlights and breaking changes in version 0.16.0.
+- [[zig-build-system]]: Detailed guide to the Zig Build System.

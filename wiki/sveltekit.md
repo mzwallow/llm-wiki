@@ -115,3 +115,4 @@ static/         # unprocessed assets
 - [[svelte]]
 - [[svelte-llms]]
 - [[svelte-component-patterns]]
+- [[bits-ui]]

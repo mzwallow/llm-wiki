@@ -17,3 +17,4 @@ OpenWrt is an open-source project for embedded operating systems based on Linux,
 - [[openwrt-raspberry-pi]]
 - [[openwrt-sqm]]
 - [[openwrt-wireless]]
+- [[openwrt-tailscale]]

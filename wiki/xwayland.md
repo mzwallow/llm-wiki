@@ -12,3 +12,6 @@ To provide a seamless "rootless" experience (where X11 windows mix with Wayland 
 - [[wayland-protocol]]
 - [[wayland-book]]
 - [[libwayland]]
+- [[libwayland-server]]
+- [[libwayland-client]]
+- [[libwayland-protocol-spec]]

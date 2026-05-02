@@ -15,5 +15,9 @@ This document details the C API for `libwayland-server`, the reference implement
 
 ## See Also
 - [[wayland]]
-- [[libwayland]]
 - [[wayland-protocol]]
+- [[wayland-book]]
+- [[xwayland]]
+- [[libwayland]]
+- [[libwayland-client]]
+- [[libwayland-protocol-spec]]

@@ -16,4 +16,5 @@ Bits UI fits Svelte applications that need robust interactive components but alr
 - [[bits-ui-llms]]
 - [[svelte-component-patterns]]
 - [[svelte]]
+- [[sveltekit]]
 - [[svelte-llms]]

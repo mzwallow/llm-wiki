@@ -15,3 +15,5 @@ Both libraries handle the low-level details of marshalling/unmarshalling message
 ## See Also
 - [[wayland]]
 - [[wayland-protocol]]
+- [[wayland-book]]
+- [[xwayland]]

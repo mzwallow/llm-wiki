@@ -36,3 +36,5 @@ Defines a virtual wireless network on a specific `wifi-device`.
 ## See Also
 - [[openwrt]]
 - [[openwrt-raspberry-pi]]
+- [[openwrt-sqm]]
+- [[openwrt-tailscale]]

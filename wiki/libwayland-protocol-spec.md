@@ -15,4 +15,8 @@ This document defines the core interfaces and messages (requests and events) tha
 ## See Also
 - [[wayland]]
 - [[wayland-protocol]]
+- [[wayland-book]]
+- [[xwayland]]
 - [[libwayland]]
+- [[libwayland-server]]
+- [[libwayland-client]]

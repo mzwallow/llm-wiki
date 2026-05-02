@@ -1,5 +1,27 @@
 # Wiki Log
 
+## [2026-05-02] ingest | Zig Build System
+- Ingested `raw/zig/build-system.md`.
+- Created [[zig-build-system]].
+- Updated [[zig-language]] and [[index.md]].
+
+## [2026-05-02] lint | Comprehensive cross-reference audit
+- Completed exhaustive cross-linking of OpenWrt, Wayland, and Svelte clusters.
+- Verified that all pages in `wiki/` are registered in `index.md`.
+- Fixed missing `See Also` links in `openwrt-raspberry-pi.md`, `libwayland.md`, `xwayland.md`, and all `libwayland-*` pages.
+- Verified Zig cluster integrity after 0.16.0 ingestion.
+
+## [2026-05-02] ingest | Tailscale on OpenWrt
+- Ingested `raw/openwrt/tailscale.md`.
+- Created [[openwrt-tailscale]].
+- Updated [[openwrt]] and [[index.md]].
+
+## [2026-05-01] ingest | Zig 0.16.0 Release Notes
+- Ingested `raw/zig/0.16.0-release-notes.md`.
+- Created [[zig-0.16.0-release-notes]].
+- Updated [[zig-language]] with 0.16.0 highlights.
+- Updated [[index.md]].
+
 ## [2026-04-25] ingest | Wayland Book
 Ingested `raw/wayland/book.md`. Created summary page `wayland-book.md` and concept pages for `wayland`, `wayland-protocol`, and `xwayland`. Updated `index.md`.
 

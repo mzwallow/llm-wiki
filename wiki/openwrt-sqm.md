@@ -36,3 +36,5 @@ SQM is a system to mitigate **bufferbloat**—increased latency (ping) that occu
 ## See Also
 - [[openwrt]]
 - [[openwrt-raspberry-pi]]
+- [[openwrt-wireless]]
+- [[openwrt-tailscale]]
