@@ -1,5 +1,7 @@
 # Tailscale on OpenWrt
 
+**Source:** [OpenWrt Wiki: Tailscale](https://openwrt.org/docs/guide-user/services/vpn/tailscale)
+
 Tailscale is a zero-config VPN that creates a secure virtual network (Tailnet) between devices. On OpenWrt, it can be used for remote administration, site-to-site networking (subnet routing), or as an exit node.
 
 ## Installation

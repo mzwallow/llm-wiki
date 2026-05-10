@@ -14,7 +14,8 @@ Zig is a general-purpose programming language and toolchain intended to replace 
 - **First-class C Integration:** Native support for importing C headers and linking against C libraries.
 - **Manual Memory Management:** Precise control over allocations without a garbage collector.
 
-## Documentation
+## See Also
 - [[zig-0.16.0-doc]]: The official documentation for version 0.16.0.
 - [[zig-0.16.0-release-notes]]: Highlights and breaking changes in version 0.16.0.
 - [[zig-build-system]]: Detailed guide to the Zig Build System.
+- [[index.md]]

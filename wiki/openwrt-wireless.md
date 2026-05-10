@@ -1,5 +1,7 @@
 # OpenWrt Wireless
 
+**Source:** [OpenWrt Wiki: Wireless](https://openwrt.org/docs/guide-user/network/wifi/basic)
+
 OpenWrt manages Wi-Fi through the Unified Configuration Interface (UCI) and `hostapd`.
 
 ## Configuration Structure (`/etc/config/wireless`)

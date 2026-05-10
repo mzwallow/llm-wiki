@@ -1,5 +1,7 @@
 # OpenWrt on Raspberry Pi
 
+**Source:** [OpenWrt Wiki: Raspberry Pi](https://openwrt.org/toh/raspberry_pi_foundation/raspberry_pi)
+
 Support for Raspberry Pi (RPi) in OpenWrt is handled under the **bcm27xx** target.
 
 ## Hardware Support
@@ -60,6 +62,3 @@ Recommended for RPi 4 and 5 to improve performance, fix bugs, and optimize power
 - [[openwrt-sqm]]
 - [[openwrt-wireless]]
 - [[openwrt-tailscale]]
-
-## References
-- [OpenWrt Wiki: Raspberry Pi](https://openwrt.org/toh/raspberry_pi_foundation/raspberry_pi)

@@ -1,5 +1,7 @@
 # OpenWrt SQM (Smart Queue Management)
 
+**Source:** [OpenWrt Wiki: SQM](https://openwrt.org/docs/guide-user/network/traffic-shaping/sqm)
+
 SQM is a system to mitigate **bufferbloat**—increased latency (ping) that occurs when a network link is saturated with traffic.
 
 ## Core Mechanisms
