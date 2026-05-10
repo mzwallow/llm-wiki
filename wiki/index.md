@@ -2,6 +2,7 @@
 
 ## Sources
 - [[wayland-book]]: Summary of the official Wayland Book.
+- [[the-wayland-protocol]]: Drew DeVault's guide to the Wayland protocol.
 - [[zig-0.16.0-doc]]: Summary of the Zig 0.16.0 Documentation.
 - [[zig-0.16.0-release-notes]]: Summary of the Zig 0.16.0 Release Notes.
 - [[zig-build-system]]: Summary of the Zig Build System.

@@ -1,3 +1,25 @@
+# Wayland Concept Page Update Implementation Plan
+
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+
+**Goal:** Update `wiki/wayland.md` to include more technical detail on architecture (Proxies/Resources) and protocol characteristics (atomic updates, binary format).
+
+**Architecture:** Surgical update of `wiki/wayland.md` markdown content.
+
+**Tech Stack:** Markdown.
+
+---
+
+### Task 1: Update Wayland Page
+
+**Files:**
+- Modify: `wiki/wayland.md`
+
+- [ ] **Step 1: Replace existing content with enhanced version**
+
+Apply the following content to `wiki/wayland.md`:
+
+```markdown
 # Wayland
 
 Wayland is a modern display server protocol and architecture intended to replace the X Window System on Linux and Unix-like operating systems.
@@ -24,3 +46,26 @@ The Wayland protocol is an **asynchronous, binary, message-based** protocol runn
 - [[libwayland-server]]
 - [[libwayland-client]]
 - [[libwayland-protocol-spec]]
+```
+
+- [ ] **Step 2: Update log.md**
+
+**Files:**
+- Modify: `wiki/log.md`
+
+Append to the top of the log:
+```markdown
+## [2026-05-10] update | Wayland concept page (architecture & protocol details)
+```
+
+- [ ] **Step 3: Update Search Index**
+
+Run: `bunx @tobilu/qmd embed`
+Expected: Embedding update successful.
+
+- [ ] **Step 4: Commit changes**
+
+```bash
+git add wiki/wayland.md wiki/log.md docs/superpowers/specs/2026-05-10-wayland-concept-update-design.md docs/superpowers/plans/2026-05-10-wayland-concept-update.md
+git commit -m "docs: update wayland concept page with more technical detail"
+```

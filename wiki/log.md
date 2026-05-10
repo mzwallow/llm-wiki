@@ -1,5 +1,13 @@
 # Wiki Log
 
+## [2026-05-10] update | Wayland concept page (architecture & protocol details)
+- Enhanced [[wayland]] with details on Proxies, Resources, and atomic updates.
+
+## [2026-05-10] ingest | The Wayland Protocol (Drew DeVault)
+- Ingested `raw/wayland/wayland-book.md`.
+- Created [[the-wayland-protocol]].
+- Updated [[index.md]].
+
 ## [2026-05-02] ingest | Zig Build System
 - Ingested `raw/zig/build-system.md`.
 - Created [[zig-build-system]].
