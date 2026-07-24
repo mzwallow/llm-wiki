@@ -15,6 +15,7 @@
 - [[openwrt-sqm]]: Smart Queue Management for bufferbloat mitigation.
 - [[openwrt-wireless]]: Configuration and features of Wi-Fi in OpenWrt.
 - [[openwrt-tailscale]]: Installation and configuration of Tailscale on OpenWrt.
+- [[books]]: Curated list of CS and mathematics literature.
 
 ## Concepts
 - [[wayland]]: Overview of the Wayland architecture.

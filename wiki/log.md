@@ -1,5 +1,10 @@
 # Wiki Log
 
+## [2026-07-24] ingest | Books list
+- Ingested `raw/books.md`.
+- Created [[books]].
+- Updated [[index.md]].
+
 ## [2026-05-10] update | Wayland concept page (architecture & protocol details)
 - Enhanced [[wayland]] with details on Proxies, Resources, and atomic updates.
 
