@@ -6,6 +6,25 @@
 - `index.md`: Catalog of all wiki pages.
 - `log.md`: Append-only chronological record of changes.
 
+## OKF Metadata Schema
+Wiki pages SHOULD include YAML frontmatter for provenance, trust, and freshness tracking:
+```yaml
+---
+title: Page Title
+type: Concept # Concept | Tool | System | Architecture | Guide
+status: stable # draft | stable | deprecated
+generated:
+  by: agent/<model_name>
+  at: YYYY-MM-DD
+verified: [] # e.g., [{by: "human:<username>", at: "YYYY-MM-DD"}]
+stale_after: "" # optional expiration date
+sources:
+  - title: Source Document Title
+    resource: https://... or raw/...
+tags: []
+---
+```
+
 ## Workflows
 
 ### Ingest

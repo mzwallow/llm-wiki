@@ -1,0 +1,1795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>LLM Wiki Visualizer</title>
+<script src="https://cdn.jsdelivr.net/npm/cytoscape@3.28.1/dist/cytoscape.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked@12.0.0/marked.min.js"></script>
+<style>
+* { box-sizing: border-box; }
+body { margin: 0; font-family: system-ui, sans-serif; font-size: 14px; background: #f8fafc; display: flex; flex-direction: column; height: 100vh; }
+header { display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; background: #fff; border-bottom: 1px solid #e2e8f0; }
+.title strong { font-size: 16px; margin-right: 8px; }
+.muted { color: #64748b; font-size: 12px; }
+.controls { display: flex; gap: 8px; }
+.controls input, .controls select, .controls button { font-size: 13px; padding: 5px 8px; border: 1px solid #cbd5e1; border-radius: 4px; }
+main { display: flex; flex: 1; min-height: 0; }
+#graph { flex: 1 1 65%; background: #fff; border-right: 1px solid #e2e8f0; position: relative; }
+#detail { flex: 0 0 35%; overflow-y: auto; padding: 18px 22px; background: #fff; }
+.type-chip { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; color: #fff; font-weight: 600; text-transform: uppercase; }
+#detail-body { font-size: 13px; line-height: 1.5; margin-top: 12px; }
+</style>
+</head>
+<body>
+<header>
+  <div class="title">
+    <strong>LLM Wiki Graph</strong>
+    <span class="muted">OKF Bundle Visualizer</span>
+  </div>
+  <div class="controls">
+    <input id="search" type="search" placeholder="Filter nodes...">
+    <select id="layout">
+      <option value="cose">Force (cose)</option>
+      <option value="concentric">Concentric</option>
+      <option value="circle">Circle</option>
+      <option value="grid">Grid</option>
+    </select>
+    <button id="reset">Reset View</button>
+  </div>
+</header>
+<main>
+  <div id="graph"></div>
+  <div id="detail">
+    <div id="detail-empty" class="muted">Click a node to view details.</div>
+    <div id="detail-content" hidden>
+      <span class="type-chip" id="detail-type"></span>
+      <h2 id="detail-title" style="margin: 6px 0 2px;"></h2>
+      <div class="muted" id="detail-id"></div>
+      <div id="detail-body"></div>
+    </div>
+  </div>
+</main>
+<script>
+const BUNDLE = {
+  "nodes": [
+    {
+      "data": {
+        "id": "xwayland",
+        "label": "Xwayland",
+        "type": "Concept",
+        "status": "stable",
+        "color": "#3b82f6",
+        "size": 44,
+        "description": "Wiki page for Xwayland",
+        "tags": [],
+        "links": [
+          "libwayland-server",
+          "libwayland-client",
+          "wayland-book",
+          "libwayland-protocol-spec",
+          "libwayland",
+          "wayland-protocol",
+          "wayland"
+        ],
+        "body": "# Xwayland\n\nXwayland is an X server that acts as a Wayland client, providing backward compatibility for X11 applications within a Wayland environment.\n\n## How it works\nMost Wayland compositors launch a single instance of Xwayland. X11 applications connect to Xwayland normally. Xwayland processes the X11 requests and translates the rendering and input into Wayland protocol messages to communicate with the Wayland compositor.\n\nTo provide a seamless \"rootless\" experience (where X11 windows mix with..."
+      }
+    },
+    {
+      "data": {
+        "id": "bits-ui-llms",
+        "label": "Bits UI LLM Documentation",
+        "type": "Concept",
+        "status": "stable",
+        "color": "#3b82f6",
+        "size": 38,
+        "description": "Wiki page for Bits UI LLM Documentation",
+        "tags": [],
+        "links": [
+          "bits-ui",
+          "svelte",
+          "svelte-component-patterns",
+          "svelte-llms"
+        ],
+        "body": "# Bits UI LLM Documentation\n\n**Source:** [Bits UI LLM Documentation](../raw/svelte/bits-ui-llms.md)\n**Added:** 2026-04-27\n\n## Overview\nThis source is the LLM-friendly documentation bundle for Bits UI, a headless component library for Svelte. It combines introductory material, installation guidance, authoring patterns, styling guidance, accessibility-focused primitives, and reference material for many component families.\n\n## Major Areas Covered\n- **Core Bits UI model:** Headless components that p..."
+      }
+    },
+    {
+      "data": {
+        "id": "index",
+        "label": "Wiki Index",
+        "type": "Concept",
+        "status": "stable",
+        "color": "#3b82f6",
+        "size": 82,
+        "description": "Wiki page for Wiki Index",
+        "tags": [],
+        "links": [
+          "openwrt-tailscale",
+          "raspberry-pi",
+          "books",
+          "openwrt-wireless",
+          "xwayland",
+          "libwayland-client",
+          "openwrt",
+          "libwayland",
+          "libwayland-server",
+          "zig-build-system",
+          "libwayland-protocol-spec",
+          "wayland-protocol",
+          "sveltekit",
+          "wayland-book",
+          "svelte-component-patterns",
+          "svelte-llms",
+          "the-wayland-protocol",
+          "zig-0.16.0-doc",
+          "zig-language",
+          "wayland",
+          "svelte",
+          "bits-ui-llms",
+          "openwrt-raspberry-pi",
+          "openwrt-sqm",
+          "bits-ui",
+          "zig-0.16.0-release-notes"
+        ],
+        "body": "# Wiki Index\n\n## Sources\n- [[wayland-book]]: Summary of the official Wayland Book.\n- [[the-wayland-protocol]]: Drew DeVault's guide to the Wayland protocol.\n- [[zig-0.16.0-doc]]: Summary of the Zig 0.16.0 Documentation.\n- [[zig-0.16.0-release-notes]]: Summary of the Zig 0.16.0 Release Notes.\n- [[zig-build-system]]: Summary of the Zig Build System.\n- [[libwayland-server]]: Summary of the libwayland-server API.\n- [[libwayland-client]]: Summary of the libwayland-client API.\n- [[libwayland-protocol-..."
+      }
+    },
+    {
+      "data": {
+        "id": "svelte",
+        "label": "Svelte",
+        "type": "Concept",
+        "status": "stable",
+        "color": "#3b82f6",
+        "size": 38,
+        "description": "Wiki page for Svelte",
+        "tags": [],
+        "links": [
+          "sveltekit",
+          "svelte-component-patterns",
+          "bits-ui",
+          "svelte-llms"
+        ],
+        "body": "# Svelte\n\n## What It Is\n\nSvelte is a component-based UI framework that compiles declarative HTML/CSS/JS into optimized JavaScript at build time. Unlike React/Vue, it does not use a virtual DOM \u2014 updates are surgical, targeting exact DOM nodes.\n\n## Reactivity Model (Svelte 5)\n\nRunes are compiler keywords controlling reactivity:\n\n- **`$state`** \u2014 reactive state. Deeply proxies objects/arrays for granular updates. `$state.raw` skips proxying (perf for large data). `$state.snapshot` creates static c..."
+      }
+    },
+    {
+      "data": {
+        "id": "zig-build-system",
+        "label": "Zig Build System",
+        "type": "Concept",
+        "status": "stable",
+        "color": "#3b82f6",
+        "size": 34,
+        "description": "Wiki page for Zig Build System",
+        "tags": [],
+        "links": [
+          "zig-0.16.0-doc",
+          "zig-language"
+        ],
+        "body": "# Zig Build System\n\n**Source:** [Zig Build System](https://ziglang.org/learn/build-system/)\n**Added:** 2026-05-02\n\nThe Zig Build System is a powerful tool for managing project compilation, dependencies, and complex build steps using Zig code itself. It leverages a Directed Acyclic Graph (DAG) of steps.\n\n## Core Concepts\n\n### Steps and DAG\nThe build process is modeled as a DAG of steps. The default main step is `install`.\n- **Install Step:** Copies build artifacts to the installation prefix (defa..."
+      }
+    },
+    {
+      "data": {
+        "id": "log",
+        "label": "Wiki Log",
+        "type": "Concept",
+        "status": "stable",
+        "color": "#3b82f6",
+        "size": 52,
+        "description": "Wiki page for Wiki Log",
+        "tags": [],
+        "links": [
+          "openwrt",
+          "openwrt-tailscale",
+          "zig-language",
+          "books",
+          "wayland",
+          "openwrt-wireless",
+          "openwrt-sqm",
+          "zig-build-system",
+          "index",
+          "zig-0.16.0-release-notes",
+          "the-wayland-protocol"
+        ],
+        "body": "# Wiki Log\n\n## [2026-07-24] ingest | Books list\n- Ingested `raw/books.md`.\n- Created [[books]].\n- Updated [[index.md]].\n\n## [2026-05-10] update | Wayland concept page (architecture & protocol details)\n- Enhanced [[wayland]] with details on Proxies, Resources, and atomic updates.\n\n## [2026-05-10] ingest | The Wayland Protocol (Drew DeVault)\n- Ingested `raw/wayland/wayland-book.md`.\n- Created [[the-wayland-protocol]].\n- Updated [[index.md]].\n\n## [2026-05-02] ingest | Zig Build System\n- Ingested `r..."
+      }
+    },
+    {
+      "data": {
+        "id": "zig-0.16.0-doc",
+        "label": "Zig 0.16.0 Documentation",
+        "type": "Concept",
+        "status": "stable",
+        "color": "#3b82f6",
+        "size": 32,
+        "description": "Wiki page for Zig 0.16.0 Documentation",
+        "tags": [],
+        "links": [
+          "zig-language"
+        ],
+        "body": "# Zig 0.16.0 Documentation\n\n**Source:** [Zig 0.16.0 Documentation](https://ziglang.org/documentation/0.16.0/)\n**Added:** 2026-04-25\n\n## Overview\nThis is the official language reference for version 0.16.0 of the Zig programming language. It is a comprehensive guide to the language's syntax, semantics, standard library, and build system.\n\n## Key Concepts Covered\n- **Core Language Features:**\n  - Basic types: Identifiers, Values, Variables, Integers, Floats, Slices, Pointers, Arrays, Vectors, Struc..."
+      }
+    },
+    {
+      "data": {
+        "id": "books",
+        "label": "Books",
+        "type": "Concept",
+        "status": "stable",
+        "color": "#3b82f6",
+        "size": 32,
+        "description": "Wiki page for Books",
+        "tags": [],
+        "links": [
+          "index"
+        ],
+        "body": "# Books\n\nReference list of foundational computer science, software engineering, and mathematics literature.\n\n## Operating Systems\n- **OSTEP (Operating Systems: Three Easy Pieces)** by Remzi H. Arpaci-Dusseau and Andrea C. Arpaci-Dusseau.\n  - Covers virtualization, concurrency, and persistence.\n  - Link: [OSTEP](https://pages.cs.wisc.edu/~remzi/OSTEP/)\n\n## Game Programming\n- **Game Programming Patterns** by Robert Nystrom.\n  - Architecture patterns for game development and software engineering.\n ..."
+      }
+    },
+    {
+      "data": {
+        "id": "libwayland-server",
+        "label": "libwayland-server API",
+        "type": "Concept",
+        "status": "stable",
+        "color": "#3b82f6",
+        "size": 44,
+        "description": "Wiki page for libwayland-server API",
+        "tags": [],
+        "links": [
+          "libwayland-client",
+          "wayland-book",
+          "libwayland-protocol-spec",
+          "xwayland",
+          "libwayland",
+          "wayland-protocol",
+          "wayland"
+        ],
+        "body": "# libwayland-server API\n\n**Source:** [Server API](https://wayland.freedesktop.org/docs/html/apc.html)\n**Added:** 2026-04-25\n\n## Overview\nThis document details the C API for `libwayland-server`, the reference implementation of the server side of the Wayland protocol. Its main responsibility is to handle Inter-process communication (IPC), marshalling, and message synchronization.\n\n## Key Concepts\n- **`wl_client`**: Represents an open socket connection to a specific client.\n- **`wl_resource`**: Rep..."
+      }
+    },
+    {
+      "data": {
+        "id": "the-wayland-protocol",
+        "label": "The Wayland Protocol (Drew DeVault)",
+        "type": "Concept",
+        "status": "stable",
+        "color": "#3b82f6",
+        "size": 38,
+        "description": "Wiki page for The Wayland Protocol (Drew DeVault)",
+        "tags": [],
+        "links": [
+          "wayland",
+          "wayland-book",
+          "wayland-protocol",
+          "libwayland"
+        ],
+        "body": "# The Wayland Protocol (Drew DeVault)\n\n**Source:** [The Wayland Protocol](https://wayland-book.com/print.html)\n**Added:** 2026-05-10\n\n## Overview\nA comprehensive guide to Wayland by Drew DeVault, focusing on the mental model, design rationale, and the wire protocol. It provides a more developer-centric view compared to the official documentation.\n\n## Key Concepts\n\n### High-Level Design\n- **Compositor:** Manages input and output; dispatches events to clients.\n- **Client:** Renders windows and han..."
+      }
+    },
+    {
+      "data": {
+        "id": "wayland",
+        "label": "Wayland",
+        "type": "Concept",
+        "status": "stable",
+        "color": "#3b82f6",
+        "size": 46,
+        "description": "Wiki page for Wayland",
+        "tags": [],
+        "links": [
+          "wayland-protocol",
+          "libwayland-server",
+          "wayland-book",
+          "the-wayland-protocol",
+          "xwayland",
+          "libwayland",
+          "libwayland-protocol-spec",
+          "libwayland-client"
+        ],
+        "body": "# Wayland\n\nWayland is a modern display server protocol and architecture intended to replace the X Window System on Linux and Unix-like operating systems.\n\n## Architecture\nUnlike X11, where the X server acts as a middleman for both input and rendering, Wayland simplifies the graphics stack. The **Wayland compositor** is the display server itself.\n- **Input:** The kernel sends input events to the compositor, which transforms coordinates and forwards events directly to the target client.\n- **Render..."
+      }
+    },
+    {
+      "data": {
+        "id": "sveltekit",
+        "label": "SvelteKit",
+        "type": "Concept",
+        "status": "stable",
+        "color": "#3b82f6",
+        "size": 38,
+        "description": "Wiki page for SvelteKit",
+        "tags": [],
+        "links": [
+          "svelte",
+          "svelte-component-patterns",
+          "bits-ui",
+          "svelte-llms"
+        ],
+        "body": "# SvelteKit\n\n## What It Is\n\nSvelteKit is the official application framework for Svelte. Handles routing, SSR, data loading, form handling, and deployment. Built on Vite. Analogous to Next.js (React) or Nuxt (Vue).\n\n## Routing\n\nFile-based router in `src/routes/`. Files prefixed with `+`:\n\n| File | Purpose |\n|------|---------|\n| `+page.svelte` | Page UI component |\n| `+page.js` | Universal load function (server + client) |\n| `+page.server.js` | Server-only load, form actions |\n| `+layout.svelte` |..."
+      }
+    },
+    {
+      "data": {
+        "id": "libwayland-protocol-spec",
+        "label": "Wayland Protocol Specification",
+        "type": "Concept",
+        "status": "stable",
+        "color": "#3b82f6",
+        "size": 44,
+        "description": "Wiki page for Wayland Protocol Specification",
+        "tags": [],
+        "links": [
+          "libwayland-server",
+          "libwayland-client",
+          "wayland-book",
+          "xwayland",
+          "libwayland",
+          "wayland-protocol",
+          "wayland"
+        ],
+        "body": "# Wayland Protocol Specification\n\n**Source:** [Protocol Specification](https://wayland.freedesktop.org/docs/html/apa.html)\n**Added:** 2026-04-25\n\n## Overview\nThis document defines the core interfaces and messages (requests and events) that make up the Wayland protocol, generated directly from the protocol XML files.\n\n## Key Interfaces\n- **`wl_display`**: The core global object. Provides the `sync` request for asynchronous roundtrips and the `get_registry` request to discover other globals. Emits..."
+      }
+    },
+    {
+      "data": {
+        "id": "libwayland",
+        "label": "libwayland",
+        "type": "Concept",
+        "status": "stable",
+        "color": "#3b82f6",
+        "size": 44,
+        "description": "Wiki page for libwayland",
+        "tags": [],
+        "links": [
+          "libwayland-server",
+          "wayland-book",
+          "libwayland-protocol-spec",
+          "xwayland",
+          "wayland",
+          "wayland-protocol",
+          "libwayland-client"
+        ],
+        "body": "# libwayland\n\n`libwayland` is the open-source C reference implementation of the Wayland protocol. It is split into two libraries:\n\n1. **`libwayland-server`**: Used by compositors to implement the server side of the Wayland IPC. Manages client connections, resources, and globals.\n2. **`libwayland-client`**: Used by applications and toolkits to connect to a Wayland compositor. Manages proxies, event queues, and the display connection.\n\nBoth libraries handle the low-level details of marshalling/unm..."
+      }
+    },
+    {
+      "data": {
+        "id": "openwrt",
+        "label": "OpenWrt",
+        "type": "Concept",
+        "status": "stable",
+        "color": "#3b82f6",
+        "size": 38,
+        "description": "Wiki page for OpenWrt",
+        "tags": [],
+        "links": [
+          "openwrt-raspberry-pi",
+          "openwrt-tailscale",
+          "openwrt-sqm",
+          "openwrt-wireless"
+        ],
+        "body": "# OpenWrt\n\nOpenWrt is an open-source project for embedded operating systems based on Linux, primarily used on embedded devices to route network traffic.\n\n## Core Features\n- **Package Management**: Uses `opkg` to install additional software from a repository of thousands of packages.\n- **Writable Root Filesystem**: Allows users to customize the system and install new packages without reflashing.\n- **Unified Configuration Interface (UCI)**: A small C library and CLI intended to centralize the whol..."
+      }
+    },
+    {
+      "data": {
+        "id": "openwrt-wireless",
+        "label": "OpenWrt Wireless",
+        "type": "Concept",
+        "status": "stable",
+        "color": "#3b82f6",
+        "size": 38,
+        "description": "Wiki page for OpenWrt Wireless",
+        "tags": [],
+        "links": [
+          "openwrt",
+          "openwrt-tailscale",
+          "openwrt-raspberry-pi",
+          "openwrt-sqm"
+        ],
+        "body": "# OpenWrt Wireless\n\n**Source:** [OpenWrt Wiki: Wireless](https://openwrt.org/docs/guide-user/network/wifi/basic)\n\nOpenWrt manages Wi-Fi through the Unified Configuration Interface (UCI) and `hostapd`.\n\n## Configuration Structure (`/etc/config/wireless`)\nThe configuration is split into two primary section types:\n\n### `wifi-device`\nRepresents the physical radio hardware.\n- **`type`**: Usually `mac80211` or `broadcom`.\n- **`band`**: `2g`, `5g`, `6g`, or `60g` (replaced deprecated `hwmode`).\n- **`ch..."
+      }
+    },
+    {
+      "data": {
+        "id": "openwrt-sqm",
+        "label": "OpenWrt SQM (Smart Queue Management)",
+        "type": "Concept",
+        "status": "stable",
+        "color": "#3b82f6",
+        "size": 38,
+        "description": "Wiki page for OpenWrt SQM (Smart Queue Management)",
+        "tags": [],
+        "links": [
+          "openwrt",
+          "openwrt-tailscale",
+          "openwrt-raspberry-pi",
+          "openwrt-wireless"
+        ],
+        "body": "# OpenWrt SQM (Smart Queue Management)\n\n**Source:** [OpenWrt Wiki: SQM](https://openwrt.org/docs/guide-user/network/traffic-shaping/sqm)\n\nSQM is a system to mitigate **bufferbloat**\u2014increased latency (ping) that occurs when a network link is saturated with traffic.\n\n## Core Mechanisms\n- **Active Queue Management (AQM)**: Manages packet queues to prevent excessive buffering.\n- **Traffic Shaping/Rate Limiting**: Constrains traffic to slightly below the link's physical capacity (typically 90%) to e..."
+      }
+    },
+    {
+      "data": {
+        "id": "bits-ui",
+        "label": "Bits UI",
+        "type": "Concept",
+        "status": "stable",
+        "color": "#3b82f6",
+        "size": 40,
+        "description": "Wiki page for Bits UI",
+        "tags": [],
+        "links": [
+          "svelte",
+          "sveltekit",
+          "bits-ui-llms",
+          "svelte-component-patterns",
+          "svelte-llms"
+        ],
+        "body": "# Bits UI\n\n## Overview\nBits UI is a headless component library for Svelte. It provides accessible behavior, state management, keyboard interaction, and composable primitives while leaving markup customization and styling decisions to the application.\n\n## Design Model\n- **Headless primitives:** Components provide behavior and accessibility instead of fixed visuals.\n- **Bring your own styles:** Styling can use TailwindCSS, UnoCSS, custom CSS, scoped styles, data attributes, and CSS variables.\n- **..."
+      }
+    },
+    {
+      "data": {
+        "id": "zig-0.16.0-release-notes",
+        "label": "Zig 0.16.0 Release Notes",
+        "type": "Concept",
+        "status": "stable",
+        "color": "#3b82f6",
+        "size": 34,
+        "description": "Wiki page for Zig 0.16.0 Release Notes",
+        "tags": [],
+        "links": [
+          "zig-0.16.0-doc",
+          "zig-language"
+        ],
+        "body": "# Zig 0.16.0 Release Notes\n\nZig 0.16.0 (May 2026) represents a major milestone with the introduction of the new I/O interface and significant language refinements.\n\n## Major Highlights\n\n### I/O as an Interface (`std.Io`)\nAll input and output functionality now requires being passed an `Io` instance. This decouples I/O operations from their implementations.\n- **Implementations**:\n    - `Io.Threaded`: Standard thread-based I/O (default).\n    - `Io.Evented`: Experimental stackful coroutines / green ..."
+      }
+    },
+    {
+      "data": {
+        "id": "wayland-protocol",
+        "label": "Wayland Protocol",
+        "type": "Concept",
+        "status": "stable",
+        "color": "#3b82f6",
+        "size": 44,
+        "description": "Wiki page for Wayland Protocol",
+        "tags": [],
+        "links": [
+          "libwayland-server",
+          "libwayland-client",
+          "wayland-book",
+          "libwayland-protocol-spec",
+          "xwayland",
+          "libwayland",
+          "wayland"
+        ],
+        "body": "# Wayland Protocol\n\nThe Wayland protocol defines how clients and the compositor communicate.\n\n## Characteristics\n- **Asynchronous & Object-Oriented:** Requests (client-to-server) and events (server-to-client) are invoked on objects.\n- **Message-based:** Messages contain a header (object ID, size, opcode) and typed arguments (integers, strings, object IDs, file descriptors).\n- **XML Definition:** The core protocol is defined in `wayland.xml`. This XML is used to generate C headers and language bi..."
+      }
+    },
+    {
+      "data": {
+        "id": "svelte-component-patterns",
+        "label": "Svelte Component Patterns",
+        "type": "Concept",
+        "status": "stable",
+        "color": "#3b82f6",
+        "size": 40,
+        "description": "Wiki page for Svelte Component Patterns",
+        "tags": [],
+        "links": [
+          "svelte",
+          "sveltekit",
+          "bits-ui-llms",
+          "bits-ui",
+          "svelte-llms"
+        ],
+        "body": "# Svelte Component Patterns\n\n## Overview\nThe Bits UI documentation highlights several Svelte patterns for building composable, accessible components. These patterns are useful beyond Bits UI because they describe how consumers customize rendered elements, state, styling, and mounted content.\n\n## Patterns\n- **Child snippets:** Let consumers replace or customize rendered markup while preserving component behavior and props.\n- **Refs:** Expose underlying DOM elements to consumers when direct elemen..."
+      }
+    },
+    {
+      "data": {
+        "id": "openwrt-tailscale",
+        "label": "Tailscale on OpenWrt",
+        "type": "Concept",
+        "status": "stable",
+        "color": "#3b82f6",
+        "size": 38,
+        "description": "Wiki page for Tailscale on OpenWrt",
+        "tags": [],
+        "links": [
+          "openwrt",
+          "openwrt-raspberry-pi",
+          "openwrt-sqm",
+          "openwrt-wireless"
+        ],
+        "body": "# Tailscale on OpenWrt\n\n**Source:** [OpenWrt Wiki: Tailscale](https://openwrt.org/docs/guide-user/services/vpn/tailscale)\n\nTailscale is a zero-config VPN that creates a secure virtual network (Tailnet) between devices. On OpenWrt, it can be used for remote administration, site-to-site networking (subnet routing), or as an exit node.\n\n## Installation\nTailscale can be installed via the package manager:\n```bash\nopkg update\nopkg install tailscale\n```\n*Note: In some versions, `apk` may be used instea..."
+      }
+    },
+    {
+      "data": {
+        "id": "libwayland-client",
+        "label": "libwayland-client API",
+        "type": "Concept",
+        "status": "stable",
+        "color": "#3b82f6",
+        "size": 44,
+        "description": "Wiki page for libwayland-client API",
+        "tags": [],
+        "links": [
+          "libwayland-server",
+          "wayland-book",
+          "libwayland-protocol-spec",
+          "xwayland",
+          "libwayland",
+          "wayland-protocol",
+          "wayland"
+        ],
+        "body": "# libwayland-client API\n\n**Source:** [Client API](https://wayland.freedesktop.org/docs/html/apb.html)\n**Added:** 2026-04-25\n\n## Overview\nThis document details the C API for `libwayland-client`, the reference implementation used by applications to communicate with a Wayland server.\n\n## Key Concepts\n- **`wl_display`**: The core object representing the client's connection to the compositor. Handles reading and writing data to the UNIX domain socket.\n- **`wl_event_queue`**: Holds events received fro..."
+      }
+    },
+    {
+      "data": {
+        "id": "wayland-book",
+        "label": "Wayland Book Summary",
+        "type": "Concept",
+        "status": "stable",
+        "color": "#3b82f6",
+        "size": 44,
+        "description": "Wiki page for Wayland Book Summary",
+        "tags": [],
+        "links": [
+          "libwayland-server",
+          "libwayland-client",
+          "libwayland-protocol-spec",
+          "xwayland",
+          "libwayland",
+          "wayland-protocol",
+          "wayland"
+        ],
+        "body": "# Wayland Book Summary\n\n**Source:** [Wayland Book](https://wayland.freedesktop.org/docs/book/print.html)\n**Added:** 2026-04-25\n\n## Overview\nThe Wayland Book provides a comprehensive guide to the Wayland architecture and protocol. Wayland is a display server protocol that replaces the traditional X Window System (X11) by eliminating the X server as a middleman. \n\n## Key Concepts\n\n- **Architecture:** The Wayland compositor acts as the display server. It receives input directly from the kernel (evd..."
+      }
+    },
+    {
+      "data": {
+        "id": "zig-language",
+        "label": "Zig Language",
+        "type": "Concept",
+        "status": "stable",
+        "color": "#3b82f6",
+        "size": 38,
+        "description": "Wiki page for Zig Language",
+        "tags": [],
+        "links": [
+          "zig-0.16.0-release-notes",
+          "zig-0.16.0-doc",
+          "zig-build-system",
+          "index"
+        ],
+        "body": "# Zig Language\n\nZig is a general-purpose programming language and toolchain intended to replace C. It focuses on maintaining **robust**, **optimal**, and **reusable** software.\n\n## Philosophy\n- **Robustness:** Correct behavior even for edge cases, such as out of memory errors.\n- **Optimality:** Provides control so programmers can write the best performing software.\n- **Reusability:** Code works across environments with differing constraints.\n- **Maintainability:** Imposes low overhead on reading..."
+      }
+    },
+    {
+      "data": {
+        "id": "raspberry-pi",
+        "label": "Raspberry Pi",
+        "type": "Concept",
+        "status": "stable",
+        "color": "#3b82f6",
+        "size": 34,
+        "description": "Wiki page for Raspberry Pi",
+        "tags": [],
+        "links": [
+          "openwrt",
+          "openwrt-raspberry-pi"
+        ],
+        "body": "# Raspberry Pi\n\nRaspberry Pi is a series of small single-board computers (SBCs) developed in the United Kingdom by the Raspberry Pi Foundation in association with Broadcom.\n\n## Models\n- **Raspberry Pi 1, 2, 3**: Legacy models with increasing performance.\n- **Raspberry Pi 4**: Significant spec upgrade with USB 3.0 and high RAM options.\n- **Raspberry Pi 5**: Current flagship with 2-3x performance boost over Pi 4 and new features like a power button and RTC.\n- **Raspberry Pi Zero/Zero 2**: Minimali..."
+      }
+    },
+    {
+      "data": {
+        "id": "svelte-llms",
+        "label": "Svelte LLM Documentation Summary",
+        "type": "Concept",
+        "status": "stable",
+        "color": "#3b82f6",
+        "size": 38,
+        "description": "Wiki page for Svelte LLM Documentation Summary",
+        "tags": [],
+        "links": [
+          "svelte",
+          "svelte-component-patterns",
+          "bits-ui",
+          "sveltekit"
+        ],
+        "body": "# Svelte LLM Documentation Summary\n\n**Source:** `raw/svelte/llms.md` \u2014 Full developer documentation for Svelte 5 and SvelteKit, fetched from `https://svelte.dev/llms-full.txt`. ~36K lines.\n\n## Structure\n\nThe source contains three major sections:\n1. **Svelte 5** \u2014 language, runes, components, template syntax, compiler API\n2. **SvelteKit** \u2014 routing, loading, forms, hooks, adapters, configuration\n3. **Svelte CLI & AI** \u2014 `sv` CLI, MCP tools, code writer rules\n\n## Svelte 5 Highlights\n\n### Runes\n\nRu..."
+      }
+    },
+    {
+      "data": {
+        "id": "openwrt-raspberry-pi",
+        "label": "OpenWrt on Raspberry Pi",
+        "type": "Concept",
+        "status": "stable",
+        "color": "#3b82f6",
+        "size": 38,
+        "description": "Wiki page for OpenWrt on Raspberry Pi",
+        "tags": [],
+        "links": [
+          "openwrt",
+          "openwrt-tailscale",
+          "openwrt-sqm",
+          "openwrt-wireless"
+        ],
+        "body": "# OpenWrt on Raspberry Pi\n\n**Source:** [OpenWrt Wiki: Raspberry Pi](https://openwrt.org/toh/raspberry_pi_foundation/raspberry_pi)\n\nSupport for Raspberry Pi (RPi) in OpenWrt is handled under the **bcm27xx** target.\n\n## Hardware Support\n\n| Model | Subtarget | SoC | Architecture |\n|-------|-----------|-----|--------------|\n| Raspberry Pi 1 | `bcm2708` | BCM2835 | ARMv6 |\n| Raspberry Pi 2 | `bcm2709` | BCM2836 | ARMv7 |\n| Raspberry Pi 3 | `bcm2710` | BCM2837 | ARMv8 (64-bit) |\n| Raspberry Pi 4 | `bc..."
+      }
+    }
+  ],
+  "edges": [
+    {
+      "data": {
+        "id": "xwayland->libwayland-server",
+        "source": "xwayland",
+        "target": "libwayland-server"
+      }
+    },
+    {
+      "data": {
+        "id": "xwayland->libwayland-client",
+        "source": "xwayland",
+        "target": "libwayland-client"
+      }
+    },
+    {
+      "data": {
+        "id": "xwayland->wayland-book",
+        "source": "xwayland",
+        "target": "wayland-book"
+      }
+    },
+    {
+      "data": {
+        "id": "xwayland->libwayland-protocol-spec",
+        "source": "xwayland",
+        "target": "libwayland-protocol-spec"
+      }
+    },
+    {
+      "data": {
+        "id": "xwayland->libwayland",
+        "source": "xwayland",
+        "target": "libwayland"
+      }
+    },
+    {
+      "data": {
+        "id": "xwayland->wayland-protocol",
+        "source": "xwayland",
+        "target": "wayland-protocol"
+      }
+    },
+    {
+      "data": {
+        "id": "xwayland->wayland",
+        "source": "xwayland",
+        "target": "wayland"
+      }
+    },
+    {
+      "data": {
+        "id": "bits-ui-llms->bits-ui",
+        "source": "bits-ui-llms",
+        "target": "bits-ui"
+      }
+    },
+    {
+      "data": {
+        "id": "bits-ui-llms->svelte",
+        "source": "bits-ui-llms",
+        "target": "svelte"
+      }
+    },
+    {
+      "data": {
+        "id": "bits-ui-llms->svelte-component-patterns",
+        "source": "bits-ui-llms",
+        "target": "svelte-component-patterns"
+      }
+    },
+    {
+      "data": {
+        "id": "bits-ui-llms->svelte-llms",
+        "source": "bits-ui-llms",
+        "target": "svelte-llms"
+      }
+    },
+    {
+      "data": {
+        "id": "index->openwrt-tailscale",
+        "source": "index",
+        "target": "openwrt-tailscale"
+      }
+    },
+    {
+      "data": {
+        "id": "index->raspberry-pi",
+        "source": "index",
+        "target": "raspberry-pi"
+      }
+    },
+    {
+      "data": {
+        "id": "index->books",
+        "source": "index",
+        "target": "books"
+      }
+    },
+    {
+      "data": {
+        "id": "index->openwrt-wireless",
+        "source": "index",
+        "target": "openwrt-wireless"
+      }
+    },
+    {
+      "data": {
+        "id": "index->xwayland",
+        "source": "index",
+        "target": "xwayland"
+      }
+    },
+    {
+      "data": {
+        "id": "index->libwayland-client",
+        "source": "index",
+        "target": "libwayland-client"
+      }
+    },
+    {
+      "data": {
+        "id": "index->openwrt",
+        "source": "index",
+        "target": "openwrt"
+      }
+    },
+    {
+      "data": {
+        "id": "index->libwayland",
+        "source": "index",
+        "target": "libwayland"
+      }
+    },
+    {
+      "data": {
+        "id": "index->libwayland-server",
+        "source": "index",
+        "target": "libwayland-server"
+      }
+    },
+    {
+      "data": {
+        "id": "index->zig-build-system",
+        "source": "index",
+        "target": "zig-build-system"
+      }
+    },
+    {
+      "data": {
+        "id": "index->libwayland-protocol-spec",
+        "source": "index",
+        "target": "libwayland-protocol-spec"
+      }
+    },
+    {
+      "data": {
+        "id": "index->wayland-protocol",
+        "source": "index",
+        "target": "wayland-protocol"
+      }
+    },
+    {
+      "data": {
+        "id": "index->sveltekit",
+        "source": "index",
+        "target": "sveltekit"
+      }
+    },
+    {
+      "data": {
+        "id": "index->wayland-book",
+        "source": "index",
+        "target": "wayland-book"
+      }
+    },
+    {
+      "data": {
+        "id": "index->svelte-component-patterns",
+        "source": "index",
+        "target": "svelte-component-patterns"
+      }
+    },
+    {
+      "data": {
+        "id": "index->svelte-llms",
+        "source": "index",
+        "target": "svelte-llms"
+      }
+    },
+    {
+      "data": {
+        "id": "index->the-wayland-protocol",
+        "source": "index",
+        "target": "the-wayland-protocol"
+      }
+    },
+    {
+      "data": {
+        "id": "index->zig-0.16.0-doc",
+        "source": "index",
+        "target": "zig-0.16.0-doc"
+      }
+    },
+    {
+      "data": {
+        "id": "index->zig-language",
+        "source": "index",
+        "target": "zig-language"
+      }
+    },
+    {
+      "data": {
+        "id": "index->wayland",
+        "source": "index",
+        "target": "wayland"
+      }
+    },
+    {
+      "data": {
+        "id": "index->svelte",
+        "source": "index",
+        "target": "svelte"
+      }
+    },
+    {
+      "data": {
+        "id": "index->bits-ui-llms",
+        "source": "index",
+        "target": "bits-ui-llms"
+      }
+    },
+    {
+      "data": {
+        "id": "index->openwrt-raspberry-pi",
+        "source": "index",
+        "target": "openwrt-raspberry-pi"
+      }
+    },
+    {
+      "data": {
+        "id": "index->openwrt-sqm",
+        "source": "index",
+        "target": "openwrt-sqm"
+      }
+    },
+    {
+      "data": {
+        "id": "index->bits-ui",
+        "source": "index",
+        "target": "bits-ui"
+      }
+    },
+    {
+      "data": {
+        "id": "index->zig-0.16.0-release-notes",
+        "source": "index",
+        "target": "zig-0.16.0-release-notes"
+      }
+    },
+    {
+      "data": {
+        "id": "svelte->sveltekit",
+        "source": "svelte",
+        "target": "sveltekit"
+      }
+    },
+    {
+      "data": {
+        "id": "svelte->svelte-component-patterns",
+        "source": "svelte",
+        "target": "svelte-component-patterns"
+      }
+    },
+    {
+      "data": {
+        "id": "svelte->bits-ui",
+        "source": "svelte",
+        "target": "bits-ui"
+      }
+    },
+    {
+      "data": {
+        "id": "svelte->svelte-llms",
+        "source": "svelte",
+        "target": "svelte-llms"
+      }
+    },
+    {
+      "data": {
+        "id": "zig-build-system->zig-0.16.0-doc",
+        "source": "zig-build-system",
+        "target": "zig-0.16.0-doc"
+      }
+    },
+    {
+      "data": {
+        "id": "zig-build-system->zig-language",
+        "source": "zig-build-system",
+        "target": "zig-language"
+      }
+    },
+    {
+      "data": {
+        "id": "log->openwrt",
+        "source": "log",
+        "target": "openwrt"
+      }
+    },
+    {
+      "data": {
+        "id": "log->openwrt-tailscale",
+        "source": "log",
+        "target": "openwrt-tailscale"
+      }
+    },
+    {
+      "data": {
+        "id": "log->zig-language",
+        "source": "log",
+        "target": "zig-language"
+      }
+    },
+    {
+      "data": {
+        "id": "log->books",
+        "source": "log",
+        "target": "books"
+      }
+    },
+    {
+      "data": {
+        "id": "log->wayland",
+        "source": "log",
+        "target": "wayland"
+      }
+    },
+    {
+      "data": {
+        "id": "log->openwrt-wireless",
+        "source": "log",
+        "target": "openwrt-wireless"
+      }
+    },
+    {
+      "data": {
+        "id": "log->openwrt-sqm",
+        "source": "log",
+        "target": "openwrt-sqm"
+      }
+    },
+    {
+      "data": {
+        "id": "log->zig-build-system",
+        "source": "log",
+        "target": "zig-build-system"
+      }
+    },
+    {
+      "data": {
+        "id": "log->index",
+        "source": "log",
+        "target": "index"
+      }
+    },
+    {
+      "data": {
+        "id": "log->zig-0.16.0-release-notes",
+        "source": "log",
+        "target": "zig-0.16.0-release-notes"
+      }
+    },
+    {
+      "data": {
+        "id": "log->the-wayland-protocol",
+        "source": "log",
+        "target": "the-wayland-protocol"
+      }
+    },
+    {
+      "data": {
+        "id": "zig-0.16.0-doc->zig-language",
+        "source": "zig-0.16.0-doc",
+        "target": "zig-language"
+      }
+    },
+    {
+      "data": {
+        "id": "books->index",
+        "source": "books",
+        "target": "index"
+      }
+    },
+    {
+      "data": {
+        "id": "libwayland-server->libwayland-client",
+        "source": "libwayland-server",
+        "target": "libwayland-client"
+      }
+    },
+    {
+      "data": {
+        "id": "libwayland-server->wayland-book",
+        "source": "libwayland-server",
+        "target": "wayland-book"
+      }
+    },
+    {
+      "data": {
+        "id": "libwayland-server->libwayland-protocol-spec",
+        "source": "libwayland-server",
+        "target": "libwayland-protocol-spec"
+      }
+    },
+    {
+      "data": {
+        "id": "libwayland-server->xwayland",
+        "source": "libwayland-server",
+        "target": "xwayland"
+      }
+    },
+    {
+      "data": {
+        "id": "libwayland-server->libwayland",
+        "source": "libwayland-server",
+        "target": "libwayland"
+      }
+    },
+    {
+      "data": {
+        "id": "libwayland-server->wayland-protocol",
+        "source": "libwayland-server",
+        "target": "wayland-protocol"
+      }
+    },
+    {
+      "data": {
+        "id": "libwayland-server->wayland",
+        "source": "libwayland-server",
+        "target": "wayland"
+      }
+    },
+    {
+      "data": {
+        "id": "the-wayland-protocol->wayland",
+        "source": "the-wayland-protocol",
+        "target": "wayland"
+      }
+    },
+    {
+      "data": {
+        "id": "the-wayland-protocol->wayland-book",
+        "source": "the-wayland-protocol",
+        "target": "wayland-book"
+      }
+    },
+    {
+      "data": {
+        "id": "the-wayland-protocol->wayland-protocol",
+        "source": "the-wayland-protocol",
+        "target": "wayland-protocol"
+      }
+    },
+    {
+      "data": {
+        "id": "the-wayland-protocol->libwayland",
+        "source": "the-wayland-protocol",
+        "target": "libwayland"
+      }
+    },
+    {
+      "data": {
+        "id": "wayland->wayland-protocol",
+        "source": "wayland",
+        "target": "wayland-protocol"
+      }
+    },
+    {
+      "data": {
+        "id": "wayland->libwayland-server",
+        "source": "wayland",
+        "target": "libwayland-server"
+      }
+    },
+    {
+      "data": {
+        "id": "wayland->wayland-book",
+        "source": "wayland",
+        "target": "wayland-book"
+      }
+    },
+    {
+      "data": {
+        "id": "wayland->the-wayland-protocol",
+        "source": "wayland",
+        "target": "the-wayland-protocol"
+      }
+    },
+    {
+      "data": {
+        "id": "wayland->xwayland",
+        "source": "wayland",
+        "target": "xwayland"
+      }
+    },
+    {
+      "data": {
+        "id": "wayland->libwayland",
+        "source": "wayland",
+        "target": "libwayland"
+      }
+    },
+    {
+      "data": {
+        "id": "wayland->libwayland-protocol-spec",
+        "source": "wayland",
+        "target": "libwayland-protocol-spec"
+      }
+    },
+    {
+      "data": {
+        "id": "wayland->libwayland-client",
+        "source": "wayland",
+        "target": "libwayland-client"
+      }
+    },
+    {
+      "data": {
+        "id": "sveltekit->svelte",
+        "source": "sveltekit",
+        "target": "svelte"
+      }
+    },
+    {
+      "data": {
+        "id": "sveltekit->svelte-component-patterns",
+        "source": "sveltekit",
+        "target": "svelte-component-patterns"
+      }
+    },
+    {
+      "data": {
+        "id": "sveltekit->bits-ui",
+        "source": "sveltekit",
+        "target": "bits-ui"
+      }
+    },
+    {
+      "data": {
+        "id": "sveltekit->svelte-llms",
+        "source": "sveltekit",
+        "target": "svelte-llms"
+      }
+    },
+    {
+      "data": {
+        "id": "libwayland-protocol-spec->libwayland-server",
+        "source": "libwayland-protocol-spec",
+        "target": "libwayland-server"
+      }
+    },
+    {
+      "data": {
+        "id": "libwayland-protocol-spec->libwayland-client",
+        "source": "libwayland-protocol-spec",
+        "target": "libwayland-client"
+      }
+    },
+    {
+      "data": {
+        "id": "libwayland-protocol-spec->wayland-book",
+        "source": "libwayland-protocol-spec",
+        "target": "wayland-book"
+      }
+    },
+    {
+      "data": {
+        "id": "libwayland-protocol-spec->xwayland",
+        "source": "libwayland-protocol-spec",
+        "target": "xwayland"
+      }
+    },
+    {
+      "data": {
+        "id": "libwayland-protocol-spec->libwayland",
+        "source": "libwayland-protocol-spec",
+        "target": "libwayland"
+      }
+    },
+    {
+      "data": {
+        "id": "libwayland-protocol-spec->wayland-protocol",
+        "source": "libwayland-protocol-spec",
+        "target": "wayland-protocol"
+      }
+    },
+    {
+      "data": {
+        "id": "libwayland-protocol-spec->wayland",
+        "source": "libwayland-protocol-spec",
+        "target": "wayland"
+      }
+    },
+    {
+      "data": {
+        "id": "libwayland->libwayland-server",
+        "source": "libwayland",
+        "target": "libwayland-server"
+      }
+    },
+    {
+      "data": {
+        "id": "libwayland->wayland-book",
+        "source": "libwayland",
+        "target": "wayland-book"
+      }
+    },
+    {
+      "data": {
+        "id": "libwayland->libwayland-protocol-spec",
+        "source": "libwayland",
+        "target": "libwayland-protocol-spec"
+      }
+    },
+    {
+      "data": {
+        "id": "libwayland->xwayland",
+        "source": "libwayland",
+        "target": "xwayland"
+      }
+    },
+    {
+      "data": {
+        "id": "libwayland->wayland",
+        "source": "libwayland",
+        "target": "wayland"
+      }
+    },
+    {
+      "data": {
+        "id": "libwayland->wayland-protocol",
+        "source": "libwayland",
+        "target": "wayland-protocol"
+      }
+    },
+    {
+      "data": {
+        "id": "libwayland->libwayland-client",
+        "source": "libwayland",
+        "target": "libwayland-client"
+      }
+    },
+    {
+      "data": {
+        "id": "openwrt->openwrt-raspberry-pi",
+        "source": "openwrt",
+        "target": "openwrt-raspberry-pi"
+      }
+    },
+    {
+      "data": {
+        "id": "openwrt->openwrt-tailscale",
+        "source": "openwrt",
+        "target": "openwrt-tailscale"
+      }
+    },
+    {
+      "data": {
+        "id": "openwrt->openwrt-sqm",
+        "source": "openwrt",
+        "target": "openwrt-sqm"
+      }
+    },
+    {
+      "data": {
+        "id": "openwrt->openwrt-wireless",
+        "source": "openwrt",
+        "target": "openwrt-wireless"
+      }
+    },
+    {
+      "data": {
+        "id": "openwrt-wireless->openwrt",
+        "source": "openwrt-wireless",
+        "target": "openwrt"
+      }
+    },
+    {
+      "data": {
+        "id": "openwrt-wireless->openwrt-tailscale",
+        "source": "openwrt-wireless",
+        "target": "openwrt-tailscale"
+      }
+    },
+    {
+      "data": {
+        "id": "openwrt-wireless->openwrt-raspberry-pi",
+        "source": "openwrt-wireless",
+        "target": "openwrt-raspberry-pi"
+      }
+    },
+    {
+      "data": {
+        "id": "openwrt-wireless->openwrt-sqm",
+        "source": "openwrt-wireless",
+        "target": "openwrt-sqm"
+      }
+    },
+    {
+      "data": {
+        "id": "openwrt-sqm->openwrt",
+        "source": "openwrt-sqm",
+        "target": "openwrt"
+      }
+    },
+    {
+      "data": {
+        "id": "openwrt-sqm->openwrt-tailscale",
+        "source": "openwrt-sqm",
+        "target": "openwrt-tailscale"
+      }
+    },
+    {
+      "data": {
+        "id": "openwrt-sqm->openwrt-raspberry-pi",
+        "source": "openwrt-sqm",
+        "target": "openwrt-raspberry-pi"
+      }
+    },
+    {
+      "data": {
+        "id": "openwrt-sqm->openwrt-wireless",
+        "source": "openwrt-sqm",
+        "target": "openwrt-wireless"
+      }
+    },
+    {
+      "data": {
+        "id": "bits-ui->svelte",
+        "source": "bits-ui",
+        "target": "svelte"
+      }
+    },
+    {
+      "data": {
+        "id": "bits-ui->sveltekit",
+        "source": "bits-ui",
+        "target": "sveltekit"
+      }
+    },
+    {
+      "data": {
+        "id": "bits-ui->bits-ui-llms",
+        "source": "bits-ui",
+        "target": "bits-ui-llms"
+      }
+    },
+    {
+      "data": {
+        "id": "bits-ui->svelte-component-patterns",
+        "source": "bits-ui",
+        "target": "svelte-component-patterns"
+      }
+    },
+    {
+      "data": {
+        "id": "bits-ui->svelte-llms",
+        "source": "bits-ui",
+        "target": "svelte-llms"
+      }
+    },
+    {
+      "data": {
+        "id": "zig-0.16.0-release-notes->zig-0.16.0-doc",
+        "source": "zig-0.16.0-release-notes",
+        "target": "zig-0.16.0-doc"
+      }
+    },
+    {
+      "data": {
+        "id": "zig-0.16.0-release-notes->zig-language",
+        "source": "zig-0.16.0-release-notes",
+        "target": "zig-language"
+      }
+    },
+    {
+      "data": {
+        "id": "wayland-protocol->libwayland-server",
+        "source": "wayland-protocol",
+        "target": "libwayland-server"
+      }
+    },
+    {
+      "data": {
+        "id": "wayland-protocol->libwayland-client",
+        "source": "wayland-protocol",
+        "target": "libwayland-client"
+      }
+    },
+    {
+      "data": {
+        "id": "wayland-protocol->wayland-book",
+        "source": "wayland-protocol",
+        "target": "wayland-book"
+      }
+    },
+    {
+      "data": {
+        "id": "wayland-protocol->libwayland-protocol-spec",
+        "source": "wayland-protocol",
+        "target": "libwayland-protocol-spec"
+      }
+    },
+    {
+      "data": {
+        "id": "wayland-protocol->xwayland",
+        "source": "wayland-protocol",
+        "target": "xwayland"
+      }
+    },
+    {
+      "data": {
+        "id": "wayland-protocol->libwayland",
+        "source": "wayland-protocol",
+        "target": "libwayland"
+      }
+    },
+    {
+      "data": {
+        "id": "wayland-protocol->wayland",
+        "source": "wayland-protocol",
+        "target": "wayland"
+      }
+    },
+    {
+      "data": {
+        "id": "svelte-component-patterns->svelte",
+        "source": "svelte-component-patterns",
+        "target": "svelte"
+      }
+    },
+    {
+      "data": {
+        "id": "svelte-component-patterns->sveltekit",
+        "source": "svelte-component-patterns",
+        "target": "sveltekit"
+      }
+    },
+    {
+      "data": {
+        "id": "svelte-component-patterns->bits-ui-llms",
+        "source": "svelte-component-patterns",
+        "target": "bits-ui-llms"
+      }
+    },
+    {
+      "data": {
+        "id": "svelte-component-patterns->bits-ui",
+        "source": "svelte-component-patterns",
+        "target": "bits-ui"
+      }
+    },
+    {
+      "data": {
+        "id": "svelte-component-patterns->svelte-llms",
+        "source": "svelte-component-patterns",
+        "target": "svelte-llms"
+      }
+    },
+    {
+      "data": {
+        "id": "openwrt-tailscale->openwrt",
+        "source": "openwrt-tailscale",
+        "target": "openwrt"
+      }
+    },
+    {
+      "data": {
+        "id": "openwrt-tailscale->openwrt-raspberry-pi",
+        "source": "openwrt-tailscale",
+        "target": "openwrt-raspberry-pi"
+      }
+    },
+    {
+      "data": {
+        "id": "openwrt-tailscale->openwrt-sqm",
+        "source": "openwrt-tailscale",
+        "target": "openwrt-sqm"
+      }
+    },
+    {
+      "data": {
+        "id": "openwrt-tailscale->openwrt-wireless",
+        "source": "openwrt-tailscale",
+        "target": "openwrt-wireless"
+      }
+    },
+    {
+      "data": {
+        "id": "libwayland-client->libwayland-server",
+        "source": "libwayland-client",
+        "target": "libwayland-server"
+      }
+    },
+    {
+      "data": {
+        "id": "libwayland-client->wayland-book",
+        "source": "libwayland-client",
+        "target": "wayland-book"
+      }
+    },
+    {
+      "data": {
+        "id": "libwayland-client->libwayland-protocol-spec",
+        "source": "libwayland-client",
+        "target": "libwayland-protocol-spec"
+      }
+    },
+    {
+      "data": {
+        "id": "libwayland-client->xwayland",
+        "source": "libwayland-client",
+        "target": "xwayland"
+      }
+    },
+    {
+      "data": {
+        "id": "libwayland-client->libwayland",
+        "source": "libwayland-client",
+        "target": "libwayland"
+      }
+    },
+    {
+      "data": {
+        "id": "libwayland-client->wayland-protocol",
+        "source": "libwayland-client",
+        "target": "wayland-protocol"
+      }
+    },
+    {
+      "data": {
+        "id": "libwayland-client->wayland",
+        "source": "libwayland-client",
+        "target": "wayland"
+      }
+    },
+    {
+      "data": {
+        "id": "wayland-book->libwayland-server",
+        "source": "wayland-book",
+        "target": "libwayland-server"
+      }
+    },
+    {
+      "data": {
+        "id": "wayland-book->libwayland-client",
+        "source": "wayland-book",
+        "target": "libwayland-client"
+      }
+    },
+    {
+      "data": {
+        "id": "wayland-book->libwayland-protocol-spec",
+        "source": "wayland-book",
+        "target": "libwayland-protocol-spec"
+      }
+    },
+    {
+      "data": {
+        "id": "wayland-book->xwayland",
+        "source": "wayland-book",
+        "target": "xwayland"
+      }
+    },
+    {
+      "data": {
+        "id": "wayland-book->libwayland",
+        "source": "wayland-book",
+        "target": "libwayland"
+      }
+    },
+    {
+      "data": {
+        "id": "wayland-book->wayland-protocol",
+        "source": "wayland-book",
+        "target": "wayland-protocol"
+      }
+    },
+    {
+      "data": {
+        "id": "wayland-book->wayland",
+        "source": "wayland-book",
+        "target": "wayland"
+      }
+    },
+    {
+      "data": {
+        "id": "zig-language->zig-0.16.0-release-notes",
+        "source": "zig-language",
+        "target": "zig-0.16.0-release-notes"
+      }
+    },
+    {
+      "data": {
+        "id": "zig-language->zig-0.16.0-doc",
+        "source": "zig-language",
+        "target": "zig-0.16.0-doc"
+      }
+    },
+    {
+      "data": {
+        "id": "zig-language->zig-build-system",
+        "source": "zig-language",
+        "target": "zig-build-system"
+      }
+    },
+    {
+      "data": {
+        "id": "zig-language->index",
+        "source": "zig-language",
+        "target": "index"
+      }
+    },
+    {
+      "data": {
+        "id": "raspberry-pi->openwrt",
+        "source": "raspberry-pi",
+        "target": "openwrt"
+      }
+    },
+    {
+      "data": {
+        "id": "raspberry-pi->openwrt-raspberry-pi",
+        "source": "raspberry-pi",
+        "target": "openwrt-raspberry-pi"
+      }
+    },
+    {
+      "data": {
+        "id": "svelte-llms->svelte",
+        "source": "svelte-llms",
+        "target": "svelte"
+      }
+    },
+    {
+      "data": {
+        "id": "svelte-llms->svelte-component-patterns",
+        "source": "svelte-llms",
+        "target": "svelte-component-patterns"
+      }
+    },
+    {
+      "data": {
+        "id": "svelte-llms->bits-ui",
+        "source": "svelte-llms",
+        "target": "bits-ui"
+      }
+    },
+    {
+      "data": {
+        "id": "svelte-llms->sveltekit",
+        "source": "svelte-llms",
+        "target": "sveltekit"
+      }
+    },
+    {
+      "data": {
+        "id": "openwrt-raspberry-pi->openwrt",
+        "source": "openwrt-raspberry-pi",
+        "target": "openwrt"
+      }
+    },
+    {
+      "data": {
+        "id": "openwrt-raspberry-pi->openwrt-tailscale",
+        "source": "openwrt-raspberry-pi",
+        "target": "openwrt-tailscale"
+      }
+    },
+    {
+      "data": {
+        "id": "openwrt-raspberry-pi->openwrt-sqm",
+        "source": "openwrt-raspberry-pi",
+        "target": "openwrt-sqm"
+      }
+    },
+    {
+      "data": {
+        "id": "openwrt-raspberry-pi->openwrt-wireless",
+        "source": "openwrt-raspberry-pi",
+        "target": "openwrt-wireless"
+      }
+    }
+  ]
+};
+
+let cy = cytoscape({
+  container: document.getElementById('graph'),
+  elements: [...BUNDLE.nodes, ...BUNDLE.edges],
+  style: [
+    {
+      selector: 'node',
+      style: {
+        'label': 'data(label)',
+        'background-color': 'data(color)',
+        'width': 'data(size)',
+        'height': 'data(size)',
+        'color': '#1e293b',
+        'font-size': '11px',
+        'text-valign': 'bottom',
+        'text-margin-y': 4
+      }
+    },
+    {
+      selector: 'edge',
+      style: {
+        'width': 1.5,
+        'line-color': '#cbd5e1',
+        'target-arrow-color': '#cbd5e1',
+        'target-arrow-shape': 'triangle',
+        'curve-style': 'bezier'
+      }
+    },
+    {
+      selector: ':selected',
+      style: {
+        'border-width': 3,
+        'border-color': '#0284c7'
+      }
+    }
+  ],
+  layout: { name: 'cose', animate: false }
+});
+
+cy.on('tap', 'node', function(evt) {
+  const d = evt.target.data();
+  document.getElementById('detail-empty').hidden = true;
+  document.getElementById('detail-content').hidden = false;
+  document.getElementById('detail-title').textContent = d.label;
+  document.getElementById('detail-id').textContent = d.id;
+  document.getElementById('detail-type').textContent = d.type;
+  document.getElementById('detail-type').style.backgroundColor = d.color;
+  document.getElementById('detail-body').innerHTML = marked.parse(d.body || '');
+});
+
+document.getElementById('search').addEventListener('input', (e) => {
+  const q = e.target.value.toLowerCase();
+  cy.nodes().forEach(n => {
+    const label = (n.data('label') || '').toLowerCase();
+    const id = (n.data('id') || '').toLowerCase();
+    n.style('display', (label.includes(q) || id.includes(q)) ? 'element' : 'none');
+  });
+});
+
+document.getElementById('layout').addEventListener('change', (e) => {
+  cy.layout({ name: e.target.value, animate: true }).run();
+});
+
+document.getElementById('reset').addEventListener('click', () => {
+  cy.fit();
+});
+</script>
+</body>
+</html>
